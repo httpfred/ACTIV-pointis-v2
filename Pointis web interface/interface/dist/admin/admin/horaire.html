@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>POINTIS</title>
+        <!-- Favicon icon -->
+        <link rel="icon" type="image/png" sizes="16x16" href="#">
+        <!-- Custom Stylesheet -->
+        <link href="../css/style.css" rel="stylesheet">
+        <style>
+        body {
+            background-color: #1f2248;
+        }
+   
+    </style>
+    </head>
+    <script>
+
+
+    function ajouter() {
+
+
+        let z = sessionStorage.getItem("u");
+        console.log(z);
+        var t = document.getElementById("titre").value;
+        var d = document.getElementById("debs").value;
+        var turn = document.getElementById("fins").value;
+
+        
+        var data = {
+
+            Title: t,
+            HeureDebutService: d,
+            HeureFinService: turn,
+            SocieteID: z
+
+        }
+
+        console.log(data);
+        fetch('https://face.activactions.net/api/EquipeTravail/Post/', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        alert("Enregistrement reussi !");
+        location.replace('./affichagehoraire.html');
+    }
+
+
+
+
+</script>
+    <body>
+
+        <div id="preloader">
+            <div class="loader">
+                <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none"
+                        stroke-width="3" stroke-miterlimit="10" />
+                    </svg>
+                </div>
+            </div>
+
+            <div id="main-wrapper">
+
+                <div class="content-body m-auto w-75">
+
+                    <div class="row page-titles mx-0 bg-light" id="page-titles">
+                        <div class="col p-md-0">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a
+                                        class="text-light"
+                                        href="../../index.html"
+                                        function="javascript:void()">Accueil</a></li>
+                                <li class="breadcrumb-item active"><a class=""
+                                        href="" function="javascript:void()">Enregistrement</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- row -->
+
+                    <div class="container-fluid">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-validation">
+                                            <form class="form-valide" action="#"
+                                                method="post" id="formulaire"
+                                                name="formulaire">
+                                                <div class="form-group row">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group
+                                                            row">
+                                                            <label
+                                                                class="col-sm-3
+                                                                col-form-label">Titre</label>
+                                                            <div
+                                                                class="col-sm-9">
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="titre"
+                                                                    name="Nom"
+                                                                    placeholder="Nom">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group
+                                                            row">
+                                                            <label
+                                                                class="col-sm-3
+                                                                col-form-label">Debut
+                                                                de service</label>
+                                                            <div
+                                                                class="col-sm-9">
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="debs"
+                                                                    name="debut"
+                                                                    placeholder="HeureDebutService">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group
+                                                            row">
+                                                            <label
+                                                                class="col-sm-3
+                                                                col-form-label">Fin
+                                                                de service</label>
+                                                            <div
+                                                                class="col-sm-9">
+                                                                <input
+                                                                    type="text"
+                                                                    class="form-control"
+                                                                    id="fins"
+                                                                    name="fin"
+                                                                    placeholder="HeureFinService">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="form-group row">
+                                                        <input type="button"
+                                                            id="envoyer"
+                                                            onclick="ajouter();"
+                                                            class="btn
+                                                            btn-primary"
+                                                            value="Envoyer"
+                                                            style="margin-left:21%;"
+                                                            />
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- #/ container -->
+                        <!--**********************************
+            Footer start
+        ***********************************
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a> 2018</p>
+            </div>
+        </div>-->
+                        <!--**********************************
+            Footer end
+        ***********************************-->
+                    </div>
+                    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+                    <!--**********************************
+        Scripts
+    ***********************************-->
+                    <script src="../plugins/common/common.min.js"></script>
+                    <script src="../js/custom.min.js"></script>
+                    <script src="../js/settings.js"></script>
+                    <script src="../js/gleek.js"></script>
+                    <script src="../js/styleSwitcher.js"></script>
+                    <script src="../plugins/validation/jquery.validate.min.js"></script>
+                    <script src="../plugins/validation/jquery.validate-init.js"></script>
+                    <!--**********************************
+        Main wrapper end
+    ***********************************  <script src="jquery/jquery.js"></script>
+    <script src="jquery/jquery.min.js"></script>-->
+                </body>
+
+            </html>

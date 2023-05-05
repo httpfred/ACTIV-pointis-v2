@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>POINTIS</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="#">
+    <!-- Custom Stylesheet -->
+    <link href="../plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+
+</head>
+<script>
+
+function supprimer(_url,id,lien){
+                sessionStorage.setItem("supp", id);
+                let choix = confirm("Voulez vous vraiment supprimer cet élement ?");
+//var c=url;
+//var d= id;
+                    console.log(_url, id, lien);
+                     //console.log(c,d);
+
+
+                if (choix) {
+                        fetch(_url + "?id=" + id, {
+                            method: 'DELETE'
+                        });
+                        alert("Cet élément a été supprimé ");
+                    location.replace('../admin/affichageutilisateur.html');
+}
+                else {
+                    alert("la suppression a été annulée");
+                  // location.replace('./affichageenregi.html');
+                    }
+            }
+   
+            function modifier(id, lien){
+                sessionStorage.setItem("modif", id);
+                location.replace('../admin/edituti.html');
+            }
+            
+           
+            function detail(id, lien) {
+                sessionStorage.setItem("detail", id);
+                location.replace('../admin/detailuti.html');
+            }
+            function badge(id, lien) {
+                sessionStorage.setItem("badge", id);
+                location.replace('../admin/badgeuti.html');
+            }
+</script>
+    
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+      
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+     
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body m-auto w-75">
+
+            <div class="row page-titles mx-0 bg-light">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a class="" href="../../index.html"function="javascript:void()" >Accueil</a></li>
+                        <li class="breadcrumb-item active"><a class="" href=""function="javascript:void()" >Enregistrement</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-lg-8 ml-auto text-right">
+                                        <a href="../admin/utilisateur.html" type="button" class="btn btn-primary">Ajouter</a>
+                                       
+                                    </div>
+                                </div>
+                                
+                                <h4 class="card-title">Liste des utilisateurs</h4>
+                                <div class="table-responsive">
+                                    <table class="table  ">
+                                        <thead style="border-color: transparent;" >
+                                            <tr>
+                                                <th style="background-color:darkgray;color:white;border-color: transparent;">Login</th>
+                                                <th style="background-color:darkgray;color:white;border-color: transparent;">Mot de passe</th>
+                                                <th style="background-color:darkgray;color:white;border-color: transparent;">Role</th>
+                                                <th style="background-color:darkgray;color:white;border-color: transparent;"></th>   
+                                                <th style="background-color:darkgray;color:white;border-color: transparent;"></th>
+                                                <th style="background-color:darkgray;color:white;border-color: transparent;"></th>
+                                                 <th style="background-color:darkgray;color:white;border-color: transparent;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="corps">
+                                          <script type="text/javascript">
+                                                let infos = '';
+                                                fetch('https://face.activactions.net/api/Connexion/Get')
+                                                    .then(res => res.json())
+                                                    .then(data => {
+                                                        console.log(data);
+                                                        for (let item of data) {
+                                                      infos += `<tr><td>${item.Login}</td><td>${item.Password}</td><td>${item.Role}</td><td><button Onclick="detail(${item.ConnexionID},'detailuti')"class="btn btn-light" style="display:block;padding: 10px 10px ;margin-left:158%;border-color:darkgray;width:40px"><img src="../images/fichier.png"  class="img-fluid" width="40px" alt=""></button></td><td><button class="btn btn-warning"Onclick="modifier(${item.ConnexionID},'edituti')"style="padding: 10px 10px ;margin-left:115%;background-color:#F3F3F9;width:40px"><img src="../images/crayon.png" class="img-fluid" width="40px" alt=""></button></td><td><button class="btn" Onclick ="badge(${item.ConnexionID},'../badgeuti.html')" style="display:block;padding: 10px 10px ;margin-left:75%;border-color:darkgray;width:40px"><img src="../images/des-employes.png" class="img-fluid"  width="40px" alt=""></button></td><td><button class="btn" Onclick = "supprimer('https://face.activactions.net/api/Connexion/Delete',${item.ConnexionID},'affichageutilisateur')" style="display:block;
+       padding: 10px 10px ;margin-left:30%;border-color:darkgray;width:40px"><img src="../images/supprimer.png" class="img-fluid" width="40px" alt=""></button></td></tr>`;
+                            }
+                            document.getElementById('corps').innerHTML = infos;
+                            //place.innerHTML = infos;
+                        });
+
+
+                                                      
+                                            </script>
+                                           
+                                           
+                                        </tbody>
+                                        <tfoot>
+                                            
+                                        </tfoot>
+                                    </table>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        **********************************
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a> 2018</p>
+            </div>
+        </div>*-->
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="../plugins/common/common.min.js"></script>
+    <script src="../js/custom.min.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/gleek.js"></script>
+    <script src="../js/styleSwitcher.js"></script>
+
+    <script src="../plugins/tables/js/jquery.dataTables.min.js"></script>
+    <!--<script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>-->
+     <script src="../plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+
+</body>
+
+</html>

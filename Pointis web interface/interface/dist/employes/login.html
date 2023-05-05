@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Pointis</title>
+    <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 11]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="">
+    <meta name="author" content="Phoenixcoded" />
+    <!-- Favicon icon -->
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+
+    <!-- vendor css -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .sign-elt {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+        }
+
+        .sign-left {
+            left: 0;
+        }
+
+        .sign-right {
+            right: 0;
+            width: 50%;
+            margin: 0;
+            height: 100%;
+            overflow: auto;
+            padding: 0 10%;
+        }
+
+        .sign-elt {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .myForm {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .via {
+            border-radius: 5px;
+            border: 1px yellowgreen solid;
+        }
+
+        #myForm #rappel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0;
+        }
+
+        span {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .notice {
+            display: block;
+            word-wrap: break-word;
+            text-align: center;
+            color: red;
+            border: 0;
+            border-radius: 4px/4px;
+            padding: 5px 0;
+            background-color: rgba(0, 0, 0, 0.09);
+            width: 200px;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* correction */
+        .correct {
+            border-color: rgba(13, 245, 13, 0.884);
+            /* width: 100%; */
+            border: 0;
+        }
+
+        .correct:focus {
+            border-color: rgba(13, 245, 13, 0.884);
+            box-shadow: 2px 2px 8px rgba(68, 191, 68, 0.5);
+            /* width: 100%; */
+        }
+
+        .incorrect {
+            border-color: rgba(255, 0, 0, 0.89);
+            /* width: 100%; */
+        }
+
+        .incorrect:focus {
+            border-color: rgba(255, 0, 0, 0.89);
+            /* width: 100%; */
+            box-shadow: 2px 2px 8px rgba(191, 68, 68, 0.5);
+        }
+
+        #myForm input {
+            font-size: medium;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            outline: none;
+            padding: 10px;
+            background-color: white;
+            border: 1px rgba(0, 0, 0, 0.1) solid;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        input:focus {
+            width: 100%;
+            border-color: rgba(82, 168, 236, 0.75);
+            border: 1px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 8px rgba(82, 168, 236, 0.5);
+        }
+
+        select {
+            display: flex;
+            flex-direction: column;
+            outline: none;
+            border-radius: 5px;
+            background-color: white;
+            width: 100%;
+        }
+
+        select:focus {
+            border-color: rgba(82, 168, 236, 0.75);
+            box-shadow: 0 0 8px rgba(82, 168, 236, 0.5);
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        /* End of correct */
+    </style>
+
+
+
+
+</head>
+
+<script>
+
+    function validation() {
+
+        var expressionReguliere = /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+        var phoneRegex = /^\d{10}$/;
+        if (expressionReguliere.test(document.getElementById("log").value)) {
+            fetch('https://face.activactions.net/api/Societe/Get')
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    for (let item of data) {
+                        var i = item.ID;
+                        fetch('https://face.activactions.net/api/Connexion/Get/' + i)
+                            .then(res => res.json())
+                            .then(data => {
+                                var t = document.getElementById("log").value;
+                                for (let item of data) {
+                                    var log = item.Login;
+                                    if (t == log) {
+                                        sessionStorage.setItem("q", i);
+                                        console.log(i);
+                                        location.replace('./index2.html');
+                                    }
+                                }
+                            });
+                    }
+                });
+
+        }
+        else
+            if (phoneRegex.test(document.getElementById("log").value)) {
+                //console.log("Telephone");
+                fetch('https://face.activactions.net/api/Societe/Get')
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        for (let item of data) {
+                            var g = item.ID;
+                            //sessionStorage.setItem("r",g);
+                            // console.log(g);
+                            fetch('https://face.activactions.net/api/Employes/Get/' + g)
+                                .then(res => res.json())
+                                .then(data => {
+                                    console.log(data);
+                                    for (let item of data) {
+                                        var a = document.getElementById("log").value;
+                                        var tel = item.Telephone;
+                                        if (a == tel) {
+                                            var email = item.Email;
+                                            var employe = item.EmployeID;
+                                            sessionStorage.setItem("u", g);
+                                            console.log(g);
+                                            sessionStorage.setItem("emp", employe);
+                                            console.log(employe);
+                                            /*sessionStorage.setItem("y", tel)
+                                            console.log(tel);*/
+                                            sessionStorage.setItem("i", email)
+                                            console.log(email);
+                                            //console.log("ok");
+                                            location.replace('./index2.html');
+
+                                        }
+                                    }
+
+                            });
+                        }
+
+                    });
+
+
+            }
+            else {
+                console.log("erreur");
+            }
+    }
+
+
+    /*  function connexion() {
+  
+  
+          fetch('https://face.activactions.net/api/Connexion/Get')
+                  .then(res => res.json())
+                  .then(data => {
+                      var t = document.getElementById("log").value;
+                      var d = document.getElementById("pass").value;
+                  for(let item of data){
+                          var log = item.Login;
+                          var Password = item.Password;
+                          var r= item.Role;
+                      if(t == log && d == Password){
+                      
+                           var idsociete = item.SocieteID;
+                          console.log(idsociete);
+                           sessionStorage.setItem("u",idsociete);
+                           if((r=="admin") || (r=="Admin")){
+                               console.log("ok");
+                              location.replace('./index2.html');
+                          }
+                           elseif((r=="utilisateur")||(r=="Utilisateur"))
+                          {
+                                  console.log("ok");
+                                  location.replace('./index2.html');
+                          }  
+                       
+                      }
+                      else{
+                          fetch('https://face.activactions.net/api/Employes/Get')
+                          .then(res => res.json())
+                          .then(data => {
+                              for(let item of data){
+                                   var employe=item.EmployeID;
+                                   var tel=item.Telephone;
+                                   console.log(t);
+                                   sessionStorage.setItem("j",employe);
+                                   sessionStorage.setItem("y",tel)
+                               }
+                          })
+  
+                      }
+                  }
+                  });
+                  
+  }*/
+</script>
+
+
+<body>
+
+
+
+    <!-- [ auth-signin ] start -->
+    <div class="auth-wrapper">
+        <div class="auth-content text-center">
+            <form action="" method="post" class="text-start" id="myForm">
+
+                <input type="hidden" name="client">
+                <!-- [ auth-signin ] start    <label class="label" for="cecond_name">Nom</label> <input class="input-zone" type="text" name="nom" id="nom">
+            <span class="notice">Nom unique de 2 à 16 caractères avec 1ère lettre en majuscule<br /><del>Caractère accentué</del></span>
+            <label class="label" for="prenoms">Prénoms</label><input class="input-zone" type="text" name="prenoms" id="prenoms">
+            --> <span class="notice"> <del></del></span>
+                <label class="label" for="email">Email</label> <input class="input-zone" type="text" name="email"
+                    id="log">
+                <span class="notice"></span>
+                <label class="label" for="pass">Mot de passe</label> <input class="input-zone" type="password"
+                    name="pass" id="pass">
+                <span class="notice"></span>
+                <!--   <label class="label" for="confirmePass"></label> <input class="input-zone" type="password" name="confirmePass" id="confirmePass"><br />
+            <span class="notice"></span>
+  [ auth-signin ] start      <label class="label" for="tel">Tel</label><input class="input-zone" type="telconnexion" name="tel" id="tel">
+            <span class="notice">Format invalide</span>-->
+                <br>
+                <input class="submit text-dark  p-2" id="submit" type="button" value="Inscription"
+                    onclick="validation()" style="background:#C6D0D9;color:black;">
+            </form>
+
+        </div>
+    </div>
+    <!-- [ auth-signin ] end -->
+
+    <!-- Required Js -->
+    <script src="../assets/js/vendor-all.min.js"></script>
+    <script src="../assets/js/plugins/bootstrap.min.js"></script>
+
+    <script src="../assets/js/pcoded.min.js"></script>
+
+    <!-- <script>
+    function desactiverNotice() {
+        let notice = document.querySelectorAll('.notice'),
+            noticeLength = notice.length;
+
+        for (let i = 0; i < noticeLength; i++) {
+            notice[i].style.display = 'none';
+        }
+    }
+
+    function getNotice(elements) {
+        while (elements = elements.nextSibling) {
+            if (elements.className === 'notice') {
+                return elements
+            }
+        }
+        return false;
+    }
+
+
+    let check = {}; // Put all data in litteral objet
+
+    check['nom'] = function(id) {
+
+        let nom = document.getElementById(id),
+            noticeStyle = getNotice(nom).style;
+
+        if (/^[A-Z]{1}[a-z]{2,15}$/.test(nom.value)) {
+            nom.className = 'correct';
+            noticeStyle.display = 'none';
+            return true;
+        } else {
+            nom.className = 'incorrect';
+            noticeStyle.display = 'block';
+            return false;
+        }
+
+    };
+
+    check['prenoms'] = function() {
+
+        let prenoms = document.getElementById('prenoms'),
+            noticeStyle = getNotice(prenoms).style;
+
+        if (/^([A-Z]?[a-z]{2,10} ?){1,3}$/.test(prenoms.value)) {
+            prenoms.className = 'correct';
+            noticeStyle.display = 'none';
+            return true;
+        } else {
+            prenoms.className = 'incorrect';
+            noticeStyle.display = 'block';
+            return false;
+        }
+
+    };
+
+    check['pass'] = function() {
+
+        let pass = document.getElementById('pass'),
+            noticeStyle = getNotice(pass).style;
+
+        if (/(.){4,}/.test(pass.value)) {
+            pass.className = 'correct';
+            noticeStyle.display = 'none';
+            return true;
+        } else {
+            pass.className = 'incorrect';
+            noticeStyle.display = 'block';
+            return false;
+        }
+
+    };
+
+    check['confirmePass'] = function() {
+
+        let pass = document.getElementById('pass'),
+            confirmePass = document.getElementById('confirmePass'),
+            noticeStyle = getNotice(confirmePass).style;
+
+        if (pass.value == confirmePass.value && confirmePass.value != '') {
+            confirmePass.className = 'correct';
+            noticeStyle.display = 'none';
+            return true;
+        } else {
+            confirmePass.className = 'incorrect';
+            noticeStyle.display = 'block';
+            return false;
+        }
+
+    };
+
+    check['email'] = function() {
+        let email = document.getElementById('email'),
+            noticeStyle = getNotice(email).style;
+
+        if (/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/.test(email.value)) {
+            email.className = 'correct';
+            noticeStyle.display = 'none';
+            return true;
+        } else {
+            email.className = 'incorrect';
+            noticeStyle.display = 'block';
+            return false;
+        }
+
+    };
+
+    check['tel'] = function() {
+        let tel = document.getElementById('tel'),
+            noticeStyle = getNotice(tel).style;
+
+        if (/^([0-9]{2}[-. ]?){5}$/.test(tel.value)) {
+            tel.className = 'correct';
+            noticeStyle.display = 'none';
+            return true;
+        } else {
+            tel.className = 'incorrect';
+            noticeStyle.display = 'block';
+            return false;
+        }
+
+    };
+
+
+    // Begin event
+
+    (function() { // Using IIFE for avoid globales letiables.
+
+        let myForm = document.getElementById('myForm'),
+            inputs = document.querySelectorAll('input[type=text], input[type=password],input[type=email], input[type=tel]'),
+            inputsLength = inputs.length;
+
+        for (let i = 0; i < inputsLength; i++) {
+            inputs[i].addEventListener('keyup', function(e) {
+                check[e.target.id](e.target.id); // "e.target" for thr input where update
+            });
+        }
+
+        myForm.addEventListener('submit', function(e) {
+
+            let result = true;
+
+            for (let i in check) {
+                result = check[i](i) && result;
+            }
+
+            if (!result) {
+                e.preventDefault();
+            }
+
+        });
+
+        myForm.addEventListener('reset', function() {
+
+            for (let i = 0; i < inputsLength; i++) {
+                inputs[i].className = '';
+            }
+
+            desactiverNotice();
+
+        });
+
+    })();
+
+    // Maintenant que tout est initialisé, on peut désactiver les "tooltips"
+
+    desactiverNotice();
+</script>-->
+
+
+</body>
+
+</html>
